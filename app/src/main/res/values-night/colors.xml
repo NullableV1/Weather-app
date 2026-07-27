@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="primary">#7BB3FF</color>
+    <color name="primary">#9b6af1</color>
 
     <color name="background">#121212</color>
 
-    <color name="surface">#1E1E24</color>
+    <color name="surface">#221A1A1D</color>
+
+    <color name="darker_surface">#29292F</color>
 
     <color name="surface_elevated">#1A2633</color>
 
     <color name="divider">#2D2D35</color>
 
     <color name="text_primary">#FFFFFF</color>
+
+    <color name="water">@color/primary</color>
 
     <color name="text_secondary">#B0B3B8</color>
 

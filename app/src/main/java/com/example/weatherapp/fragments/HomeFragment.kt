@@ -5,7 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
+import com.example.weatherapp.classes.HourlyWeather
+import com.example.weatherapp.classes.HourlyWeatherAdapter
+import com.example.weatherapp.databinding.FragmentHomeBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,7 +25,10 @@ class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
+    private lateinit var hourlyWeatherAdapter: HourlyWeatherAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -31,11 +38,77 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    ): View {
+
+        _binding = FragmentHomeBinding.inflate(
+            inflater,
+            container,
+            false
+        )
+
+        return binding.root
+    }
+    override fun onViewCreated(
+        view: View,
+        savedInstanceState: Bundle?
+    ) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupHourlyForecastRecyclerView()
+    }
+
+
+    private fun setupHourlyForecastRecyclerView() {
+
+        val hourlyWeatherList = listOf(
+
+            HourlyWeather(
+                time = "10 AM",
+                temperature = 28.0,
+                weatherIcon = R.drawable.cloudy_day_1
+            ),
+
+            HourlyWeather(
+                time = "11 AM",
+                temperature = 29.0,
+                weatherIcon = R.drawable.rainy
+            ),
+
+            HourlyWeather(
+                time = "12 PM",
+                temperature = 31.0,
+                weatherIcon = R.drawable.cloudy_day_1
+            ),
+            HourlyWeather(
+                time = "1 PM",
+                temperature = 33.0,
+                weatherIcon = R.drawable.cloudy_night_1
+            ),
+            HourlyWeather(
+                time = "2 PM",
+                temperature = 34.0,
+                weatherIcon = R.drawable.cloudy_night_1
+            )
+        )
+
+
+        hourlyWeatherAdapter =
+            HourlyWeatherAdapter(hourlyWeatherList)
+
+
+        binding.forecastRecyclerView.apply {
+
+            layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+
+            adapter = hourlyWeatherAdapter
+        }
     }
 
     companion object {

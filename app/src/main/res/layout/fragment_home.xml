@@ -10,10 +10,10 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_margin="8sp"
-        android:src="@drawable/primary_ic"
+        android:src="@drawable/cloudy_day_1"
         app:layout_constraintBottom_toTopOf="@+id/top_guideline"
         app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="9sp"
-        android:text="Weather"
+        android:text="@string/weather"
         android:textColor="@color/text_primary"
         android:textSize="@dimen/text_large"
         android:textStyle="bold"
@@ -36,7 +36,7 @@
         android:id="@+id/location_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Maghnia , Algeria"
+        android:text="Tlemcen , Algeria"
         android:layout_marginBottom="10sp"
         android:textColor="@color/text_primary"
         android:textSize="@dimen/text_normal"
@@ -64,17 +64,15 @@
         android:layout_margin="15dp">
 
         <ImageView
-            android:layout_margin="8sp"
             android:id="@+id/weatherStateImageView"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/rainy"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:src="@drawable/cloudy_night_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_margin="8sp"
             android:id="@+id/weatherDegreeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,7 +89,7 @@
             android:id="@+id/weatherStateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Partly Cloudy"
+            android:text="@string/partly_cloudy"
             android:gravity="center"
             android:textSize="@dimen/text_large"
             android:textColor="@color/text_primary"
@@ -195,7 +193,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_font_bold"
             android:textColor="@color/text_secondary"
-            android:text="HUMIDITY"
+            android:text="@string/humidity"
             android:textSize="@dimen/text_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -238,7 +236,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_font_bold"
             android:textColor="@color/text_secondary"
-            android:text="WIND"
+            android:text="@string/wind"
             android:textSize="@dimen/text_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -279,7 +277,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_font_bold"
             android:textColor="@color/text_secondary"
-            android:text="PRESSURE"
+            android:text="@string/pressure"
             android:textSize="@dimen/text_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -292,7 +290,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10sp"
         android:fontFamily="@font/inter_font_regular"
-        android:text="Hourly Forecast"
+        android:text="@string/hourly_forecast"
         android:textColor="@color/text_secondary"
         android:textSize="@dimen/text_large"
         android:textStyle="bold"
@@ -321,7 +319,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.18" />
+        app:layout_constraintGuide_percent="0.14" />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
         android:layout_width="wrap_content"
