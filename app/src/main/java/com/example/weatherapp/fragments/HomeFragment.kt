@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
-import com.example.weatherapp.classes.HourlyWeather
-import com.example.weatherapp.classes.HourlyWeatherAdapter
+import com.example.weatherapp.models.HourlyWeather
+import com.example.weatherapp.adapters.HourlyWeatherAdapter
 import com.example.weatherapp.databinding.FragmentHomeBinding
 
 // TODO: Rename parameter arguments, choose names that match

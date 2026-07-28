@@ -1,8 +1,9 @@
-package com.example.weatherapp.classes
+package com.example.weatherapp.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weatherapp.models.HourlyWeather
 import com.example.weatherapp.databinding.HourlyForecastCustomBinding
 
 class HourlyWeatherAdapter(
