@@ -158,9 +158,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="16sp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="13sp"
         android:background="@drawable/weather_card_bg"
         app:layout_constraintBottom_toTopOf="@+id/guidelineV4"
         app:layout_constraintEnd_toStartOf="@+id/guideline1"
@@ -194,7 +194,7 @@
             android:fontFamily="@font/inter_font_bold"
             android:textColor="@color/text_secondary"
             android:text="@string/humidity"
-            android:textSize="@dimen/text_normal"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/humidityPercentTextView" />
@@ -202,10 +202,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:background="@drawable/weather_card_bg"
-        android:layout_margin="16sp"
+        android:layout_margin="13sp"
         app:layout_constraintBottom_toTopOf="@+id/guidelineV4"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
@@ -244,9 +244,9 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="16sp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="13sp"
         android:background="@drawable/weather_card_bg"
         app:layout_constraintBottom_toTopOf="@+id/guidelineV4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -278,7 +278,7 @@
             android:fontFamily="@font/inter_font_bold"
             android:textColor="@color/text_secondary"
             android:text="@string/pressure"
-            android:textSize="@dimen/text_normal"
+            android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pressureTextView" />
@@ -320,12 +320,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.14" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.33" />
+        app:layout_constraintGuide_percent="0.34" />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
