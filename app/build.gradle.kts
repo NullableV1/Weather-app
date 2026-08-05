@@ -1,3 +1,9 @@
+import java.util.Properties
+val localProperties = Properties()
+
+localProperties.load(
+    project.rootProject.file("local.properties").inputStream()
+)
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -10,6 +16,10 @@ android {
         }
     }
 
+    buildFeatures{
+        viewBinding = true
+        buildConfig = true
+    }
     defaultConfig {
         applicationId = "com.example.weatherapp"
         minSdk = 26
@@ -18,10 +28,14 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "WEATHER_API_KEY",
+            "\"${localProperties["WEATHER_API_KEY"]}\""
+        )
     }
-    buildFeatures{
-        viewBinding = true
-    }
+
     buildTypes {
         release {
             optimization {
@@ -48,4 +62,11 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     implementation("androidx.navigation:navigation-fragment-ktx:2.9.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.9.0")
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    // Gson Converter
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    // OkHttp Logging Interceptor
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }
