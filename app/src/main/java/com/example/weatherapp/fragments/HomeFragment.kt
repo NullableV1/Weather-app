@@ -1,15 +1,23 @@
 package com.example.weatherapp.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.example.weatherapp.BuildConfig
 import com.example.weatherapp.R
 import com.example.weatherapp.models.HourlyWeather
 import com.example.weatherapp.adapters.HourlyWeatherAdapter
+import com.example.weatherapp.apis.RetrofitInstance
+import com.example.weatherapp.apis.WeatherResponse
 import com.example.weatherapp.databinding.FragmentHomeBinding
+import com.example.weatherapp.local.PreferencesManager
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -56,8 +64,28 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-
+        val prefManager = PreferencesManager(requireContext())
         setupHourlyForecastRecyclerView()
+        getWeather(prefManager)
+    }
+    private fun getWeather(prefManager : PreferencesManager){
+        lifecycleScope.launch {
+
+            val result : WeatherResponse = RetrofitInstance.api.getCurrentWeather(
+                key = BuildConfig.WEATHER_API_KEY,
+                city = prefManager.getCity()
+            )
+            val iconUrl = "https:${result.current.condition.icon}"
+            Glide.with(requireContext())
+                .load(iconUrl)
+                .into(binding.weatherStateImageView)
+            binding.locationTextview.text = result.location.name + ", "+ result.location.country
+            binding.weatherDegreeTextView.text = result.current.temp_c.toInt().toString()+"°"
+            binding.humidityPercentTextView.text = result.current.humidity.toString()
+            binding.windTextView.text = "${result.current.wind_kph} km/h"
+            binding.pressureTextView.text = "${result.current.pressure_mb} mb"
+            binding.weatherStateTextView.text = result.current.condition.text
+        }
     }
 
 

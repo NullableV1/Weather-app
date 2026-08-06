@@ -51,20 +51,9 @@ class SearchFragment : Fragment() {
 
         setupRecentCities()
         setupSuggestedCities()
-        getWeather()
     }
 
-    private fun getWeather(){
-        lifecycleScope.launch {
 
-            val result : WeatherResponse = RetrofitInstance.api.getCurrentWeather(
-                key = BuildConfig.WEATHER_API_KEY,
-                city = "Oran"
-            )
-
-            Log.d("Weather", result.toString())
-        }
-    }
     private fun setupRecentCities() {
 
         val recentCities = listOf(
