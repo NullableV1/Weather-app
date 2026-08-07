@@ -5,10 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.weatherapp.BuildConfig
 import com.example.weatherapp.adapters.CityAdapter
+import com.example.weatherapp.apis.RetrofitInstance
+import com.example.weatherapp.apis.respone.WeatherResponse
 import com.example.weatherapp.databinding.FragmentSearchBinding
+import com.example.weatherapp.local.PreferencesManager
 import com.example.weatherapp.models.CityItem
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 
 class SearchFragment : Fragment() {
@@ -42,14 +49,40 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupRecentCities()
-        setupSuggestedCities()
+        val prefManager = PreferencesManager(requireContext())
+        setupRecentCities(prefManager)
+        setupSuggestedCities(prefManager)
+        binding.searchBtn.setOnClickListener {
+            searchCity(binding.editText.text.toString(),prefManager)
+        }
     }
+    private fun searchCity(cityName: String, prefManager: PreferencesManager) {
+        lifecycleScope.launch {
+            try {
+                val result = RetrofitInstance.api.getCurrentWeather(
+                    key = BuildConfig.WEATHER_API_KEY,
+                    city = cityName
+                )
 
+                prefManager.saveCity(cityName)
+                Snackbar.make(
+                    binding.root,
+                    "City Added Successfully",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+                //TODO : ADDING CITY TO RECENT SEARCHES
 
-    private fun setupRecentCities() {
-
+            } catch (e: Exception) {
+                Snackbar.make(
+                    binding.root,
+                    "City not found",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+    private fun setupRecentCities(prefManager : PreferencesManager) {
+        //TODO : CREATE ROOM DB TO STORE RECENT CITIES AND GET THEM
         val recentCities = listOf(
             CityItem(
                 cityName = "Tlemcen",
@@ -63,11 +96,12 @@ class SearchFragment : Fragment() {
 
 
         recentCityAdapter = CityAdapter(recentCities) { city ->
-
-            // later:
-            // navigate to home
-            // load weather for city
-
+            prefManager.saveCity(city.cityName)
+            Snackbar.make(
+                binding.root,
+                "City Added Successfully",
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
 
 
@@ -82,7 +116,7 @@ class SearchFragment : Fragment() {
     }
 
 
-    private fun setupSuggestedCities() {
+    private fun setupSuggestedCities(prefManager: PreferencesManager) {
 
         val suggestedCities = listOf(
 
@@ -104,10 +138,12 @@ class SearchFragment : Fragment() {
 
 
         suggestedCityAdapter = CityAdapter(suggestedCities) { city ->
-
-            // later:
-            // select city
-
+            prefManager.saveCity(city.cityName)
+            Snackbar.make(
+                binding.root,
+                "City Added Successfully",
+                Snackbar.LENGTH_SHORT
+            ).show()
         }
 
 
@@ -116,7 +152,6 @@ class SearchFragment : Fragment() {
             layoutManager = LinearLayoutManager(
                 requireContext()
             )
-
             adapter = suggestedCityAdapter
         }
     }

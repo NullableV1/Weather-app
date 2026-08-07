@@ -16,6 +16,7 @@ import com.example.weatherapp.apis.RetrofitInstance
 import com.example.weatherapp.apis.respone.WeatherResponse
 import com.example.weatherapp.databinding.FragmentHomeBinding
 import com.example.weatherapp.local.PreferencesManager
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
@@ -68,35 +69,45 @@ class HomeFragment : Fragment() {
     }
     private fun getWeather(prefManager : PreferencesManager , context : Context){
         lifecycleScope.launch {
-
-            val result : WeatherResponse = RetrofitInstance.api.getCurrentWeather(
-                key = BuildConfig.WEATHER_API_KEY,
-                city = prefManager.getCity()
-            )
-            val iconUrl = "https:${result.current.condition.icon}"
-            Glide.with(requireContext())
-                .load(iconUrl)
-                .into(binding.weatherStateImageView)
-            binding.locationTextview.text = result.location.name + ", "+ result.location.country
-            binding.weatherDegreeTextView.text = result.current.temp_c.toInt().toString()+"°"
-            binding.humidityPercentTextView.text = result.current.humidity.toString()
-            binding.windTextView.text = "${result.current.wind_kph} km/h"
-            binding.pressureTextView.text = "${result.current.pressure_mb} mb"
-            //binding.highestDegreeTextView.text = "H :${result.forecast.forecastday[0].day.maxtemp_c.toInt()}°"
-            //binding.lowestDegreeTextView.text = "L :${result.forecast.forecastday[0].day.mintemp_c.toInt()}°"
-            binding.weatherStateTextView.text = result.current.condition.text
-            var hourlyList = ArrayList<HourlyWeather>()
-            var list = result.forecast.forecastday[0].hour
-            for (i in 1 until  list.size){
-                hourlyList.add(
-                    HourlyWeather(
-                        time = list[i].time.substring(10),
-                        temperature = list[i].temp_c,
-                        weatherIcon = list[i].condition.icon
-                    )
+            try {
+                val result: WeatherResponse = RetrofitInstance.api.getCurrentWeather(
+                    key = BuildConfig.WEATHER_API_KEY,
+                    city = prefManager.getCity()
                 )
+                val iconUrl = "https:${result.current.condition.icon}"
+                Glide.with(requireContext())
+                    .load(iconUrl)
+                    .into(binding.weatherStateImageView)
+                binding.locationTextview.text =
+                    result.location.name + ", " + result.location.country
+                binding.weatherDegreeTextView.text = result.current.temp_c.toInt().toString() + "°"
+                binding.humidityPercentTextView.text = result.current.humidity.toString()
+                binding.windTextView.text = "${result.current.wind_kph} km/h"
+                binding.pressureTextView.text = "${result.current.pressure_mb} mb"
+                binding.highestDegreeTextView.text =
+                    "H :${result.forecast.forecastday[0].day.maxtemp_c.toInt()}°"
+                binding.lowestDegreeTextView.text =
+                    "L :${result.forecast.forecastday[0].day.mintemp_c.toInt()}°"
+                binding.weatherStateTextView.text = result.current.condition.text
+                var hourlyList = ArrayList<HourlyWeather>()
+                var list = result.forecast.forecastday[0].hour
+                for (i in 1 until list.size) {
+                    hourlyList.add(
+                        HourlyWeather(
+                            time = list[i].time.substring(10),
+                            temperature = list[i].temp_c,
+                            weatherIcon = list[i].condition.icon
+                        )
+                    )
+                }
+                setupHourlyForecastRecyclerView(hourlyList, context)
+            }catch(e : Exception){
+                Snackbar.make(
+                    binding.root,
+                    "Something went Wrong",
+                    Snackbar.LENGTH_SHORT
+                ).show()
             }
-            setupHourlyForecastRecyclerView(hourlyList,context)
         }
     }
 
