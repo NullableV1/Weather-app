@@ -50,10 +50,15 @@ class SearchFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         val prefManager = PreferencesManager(requireContext())
-        setupRecentCities(prefManager)
+        lifecycleScope.launch {
+            setupRecentCities(prefManager)
+        }
         setupSuggestedCities(prefManager)
         binding.searchBtn.setOnClickListener {
             searchCity(binding.editText.text.toString(),prefManager)
+        }
+        binding.clearRecentSearchTextView.setOnClickListener {
+            prefManager.clearAll()
         }
     }
     private fun searchCity(cityName: String, prefManager: PreferencesManager) {
@@ -65,13 +70,12 @@ class SearchFragment : Fragment() {
                 )
 
                 prefManager.saveCity(cityName)
+                prefManager.saveRecentCity(cityName)
                 Snackbar.make(
                     binding.root,
                     "City Added Successfully",
                     Snackbar.LENGTH_SHORT
                 ).show()
-                //TODO : ADDING CITY TO RECENT SEARCHES
-
             } catch (e: Exception) {
                 Snackbar.make(
                     binding.root,
@@ -81,19 +85,16 @@ class SearchFragment : Fragment() {
             }
         }
     }
-    private fun setupRecentCities(prefManager : PreferencesManager) {
-        //TODO : CREATE ROOM DB TO STORE RECENT CITIES AND GET THEM
-        val recentCities = listOf(
-            CityItem(
-                cityName = "Tlemcen",
-                country = "Algeria"
-            ),
-            CityItem(
-                cityName = "Oran",
-                country = "Algeria"
+    private suspend fun setupRecentCities(prefManager : PreferencesManager) {
+        val list = prefManager.getRecentCities()
+        val recentCities = ArrayList<CityItem>()
+        for (i in 0..list.size - 1) {
+            val result = RetrofitInstance.api.getCurrentWeather(
+                key = BuildConfig.WEATHER_API_KEY,
+                city = list[i]
             )
-        )
-
+            recentCities.add(CityItem(cityName = list[i], country = result.location.country))
+        }
 
         recentCityAdapter = CityAdapter(recentCities) { city ->
             prefManager.saveCity(city.cityName)
