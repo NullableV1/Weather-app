@@ -1,20 +1,14 @@
 package com.example.weatherapp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.adapters.CityAdapter
-import com.example.weatherapp.apis.RetrofitInstance
-import com.example.weatherapp.apis.WeatherResponse
 import com.example.weatherapp.databinding.FragmentSearchBinding
 import com.example.weatherapp.models.CityItem
-import com.example.weatherapp.BuildConfig
-import kotlinx.coroutines.launch
 
 
 class SearchFragment : Fragment() {

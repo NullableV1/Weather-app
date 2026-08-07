@@ -2,7 +2,6 @@ package com.example.weatherapp.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,12 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.weatherapp.BuildConfig
-import com.example.weatherapp.R
 import com.example.weatherapp.models.HourlyWeather
 import com.example.weatherapp.adapters.HourlyWeatherAdapter
-import com.example.weatherapp.apis.Hour
 import com.example.weatherapp.apis.RetrofitInstance
-import com.example.weatherapp.apis.WeatherResponse
+import com.example.weatherapp.apis.respone.WeatherResponse
 import com.example.weatherapp.databinding.FragmentHomeBinding
 import com.example.weatherapp.local.PreferencesManager
 import kotlinx.coroutines.launch

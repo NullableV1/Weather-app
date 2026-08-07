@@ -1,4 +1,4 @@
-package com.example.weatherapp.apis
+package com.example.weatherapp.apis.respone
 
 data class ForecastDay(
     val date: String,
