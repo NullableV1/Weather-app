@@ -1,13 +1,17 @@
 package com.example.weatherapp.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.weatherapp.models.HourlyWeather
 import com.example.weatherapp.databinding.HourlyForecastCustomBinding
 
 class HourlyWeatherAdapter(
-    private val hourlyWeatherList: List<HourlyWeather>
+    private val hourlyWeatherList: List<HourlyWeather>,
+    private val context: Context
 ) : RecyclerView.Adapter<HourlyWeatherAdapter.HourlyWeatherViewHolder>() {
 
 
@@ -22,9 +26,11 @@ class HourlyWeatherAdapter(
             binding.tempTextHourlyForecast.text =
                 "${item.temperature.toInt()}°"
 
-            binding.weatherIconHourlyForecast.setImageResource(
-                item.weatherIcon
-            )
+            val iconUrl = "https:${item.weatherIcon}"
+
+            Glide.with(context)
+                .load(iconUrl)
+                .into(binding.weatherIconHourlyForecast)
         }
     }
 

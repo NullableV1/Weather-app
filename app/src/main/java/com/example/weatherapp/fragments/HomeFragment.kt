@@ -1,5 +1,6 @@
 package com.example.weatherapp.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import com.example.weatherapp.BuildConfig
 import com.example.weatherapp.R
 import com.example.weatherapp.models.HourlyWeather
 import com.example.weatherapp.adapters.HourlyWeatherAdapter
+import com.example.weatherapp.apis.Hour
 import com.example.weatherapp.apis.RetrofitInstance
 import com.example.weatherapp.apis.WeatherResponse
 import com.example.weatherapp.databinding.FragmentHomeBinding
@@ -65,10 +67,9 @@ class HomeFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
         val prefManager = PreferencesManager(requireContext())
-        setupHourlyForecastRecyclerView()
-        getWeather(prefManager)
+        getWeather(prefManager,requireContext())
     }
-    private fun getWeather(prefManager : PreferencesManager){
+    private fun getWeather(prefManager : PreferencesManager , context : Context){
         lifecycleScope.launch {
 
             val result : WeatherResponse = RetrofitInstance.api.getCurrentWeather(
@@ -84,47 +85,32 @@ class HomeFragment : Fragment() {
             binding.humidityPercentTextView.text = result.current.humidity.toString()
             binding.windTextView.text = "${result.current.wind_kph} km/h"
             binding.pressureTextView.text = "${result.current.pressure_mb} mb"
+            //binding.highestDegreeTextView.text = "H :${result.forecast.forecastday[0].day.maxtemp_c.toInt()}°"
+            //binding.lowestDegreeTextView.text = "L :${result.forecast.forecastday[0].day.mintemp_c.toInt()}°"
             binding.weatherStateTextView.text = result.current.condition.text
+            var hourlyList = ArrayList<HourlyWeather>()
+            var list = result.forecast.forecastday[0].hour
+            for (i in 1 until  list.size){
+                hourlyList.add(
+                    HourlyWeather(
+                        time = list[i].time.substring(10),
+                        temperature = list[i].temp_c,
+                        weatherIcon = list[i].condition.icon
+                    )
+                )
+            }
+            setupHourlyForecastRecyclerView(hourlyList,context)
         }
     }
 
 
-    private fun setupHourlyForecastRecyclerView() {
-
-        val hourlyWeatherList = listOf(
-
-            HourlyWeather(
-                time = "10 AM",
-                temperature = 28.0,
-                weatherIcon = R.drawable.cloudy_day_1
-            ),
-
-            HourlyWeather(
-                time = "11 AM",
-                temperature = 29.0,
-                weatherIcon = R.drawable.rainy
-            ),
-
-            HourlyWeather(
-                time = "12 PM",
-                temperature = 31.0,
-                weatherIcon = R.drawable.cloudy_day_1
-            ),
-            HourlyWeather(
-                time = "1 PM",
-                temperature = 33.0,
-                weatherIcon = R.drawable.cloudy_night_1
-            ),
-            HourlyWeather(
-                time = "2 PM",
-                temperature = 34.0,
-                weatherIcon = R.drawable.cloudy_night_1
-            )
-        )
-
+    private fun setupHourlyForecastRecyclerView(
+        hourlyWeatherList : List<HourlyWeather>,
+        context : Context
+    ) {
 
         hourlyWeatherAdapter =
-            HourlyWeatherAdapter(hourlyWeatherList)
+            HourlyWeatherAdapter(hourlyWeatherList,context)
 
 
         binding.forecastRecyclerView.apply {
