@@ -59,6 +59,14 @@ class SearchFragment : Fragment() {
         }
         binding.clearRecentSearchTextView.setOnClickListener {
             prefManager.clearAll()
+            Snackbar.make(
+                binding.root,
+                "Cleared !!",
+                Snackbar.LENGTH_SHORT
+            ).show()
+            lifecycleScope.launch {
+                setupRecentCities(prefManager)
+            }
         }
     }
     private fun searchCity(cityName: String, prefManager: PreferencesManager) {
@@ -76,6 +84,9 @@ class SearchFragment : Fragment() {
                     "City Added Successfully",
                     Snackbar.LENGTH_SHORT
                 ).show()
+                lifecycleScope.launch {
+                    setupRecentCities(prefManager)
+                }
             } catch (e: Exception) {
                 Snackbar.make(
                     binding.root,
